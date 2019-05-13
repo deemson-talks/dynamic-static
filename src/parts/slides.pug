@@ -27,9 +27,78 @@ section
     div.console
         include ../snippets/first.interface.implemented.html
 section
+    div What about return type?
     pre
         code.typescript
             include:escape ../snippets/Chew.ts
     pre
         code.typescript
             include:escape ../snippets/return.error.ts
+section
+    div Again, compiles without errors
+    include ../snippets/return.error.compilation.html
+    div And error is thrown in runtime
+    include ../snippets/return.error.runtime.html
+section
+    div Let's add a second interface
+    pre
+        code.typescript
+            include:escape ../snippets/Chew.ts
+    pre
+        code.typescript
+            include:escape ../snippets/Trash.ts
+section
+    div And put correct type on return value as well
+    pre
+        code.typescript
+            include:escape ../snippets/second.interface.ts
+section
+    div Now compilation fails as expected
+    div.console
+        include ../snippets/second.interface.compilation.html
+section
+    div Let's return the implemented result value interface
+    pre
+        code.typescript
+            include:escape ../snippets/second.interface.implemented.ts
+section
+    div Now everything works as expected
+    div.console
+        include ../snippets/second.interface.implemented.html
+section
+    div The exact same code without types forces to peek inside function to figure out contracts
+    pre
+        code.typescript
+            include:escape ../snippets/no.types.ts
+section
+    div Types are always present
+    div Dynamic typing: types are implicit
+    div Static typing: types are explicit
+section
+    table
+        thead
+            tr
+                th
+                th Dynamic typing
+                th Static typing
+        tbody
+            tr
+                td Easy to write
+                td +
+                td -
+            tr
+                td Easy to read
+                td -
+                td +
+section
+    div Dynamic typing
+    ul
+        li throw-away code
+        li simple scripts
+        li small projects done by a single developer
+section
+    div Static typing
+    ul
+        li large code base
+        li complex logic
+        li big projects done by a team of developers

@@ -1,0 +1,18 @@
+<pre>
+$ tsc second.interface.ts
+
+<span class="highlighted cyan ">second.interface.ts</span>:<span class="highlighted yellow ">13</span>:<span
+        class="highlighted yellow ">9</span> - <span class="highlighted red ">error</span><span
+        class="highlighted dimgray "> TS2741: </span>Property 'moveToTrashBin' is missing in type '{}' but required in type 'Return'.
+
+<span class="inverted bg-inverted ">13</span>         return {};
+<span class="inverted bg-inverted ">  </span> <span class="highlighted red ">        ~~~~~~~~~~</span>
+
+  <span class="highlighted cyan ">second.interface.ts</span>:<span class="highlighted yellow ">5</span>:<span
+        class="highlighted yellow ">5</span>
+    <span class="inverted bg-inverted ">5</span>     moveToTrashBin() {
+    <span class="inverted bg-inverted "> </span> <span class="highlighted cyan ">    ~~~~~~~~~~~~~~</span>
+    'moveToTrashBin' is declared here.
+
+Found 1 error.
+</pre>
