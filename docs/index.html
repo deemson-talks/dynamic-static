@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+<section>
+  <pre><code class="typescript">function doCoolStuff(arg) {
+}</code></pre>
+</section>
+<section>
+  <pre><code class="typescript">function doCoolStuff(arg) {
+    return arg.chewBubbleGum();
+}
+
+doCoolStuff({});</code></pre>
+</section>
+<section>
+  <div>Compiles without errors</div><pre>
+$ tsc nonempty.function.ts
+</pre>
+  <div>Error is thrown in runtime</div><pre>
+$ node nonempty.function.js
+
+.../nonempty.function.ts:2
+    return arg.chewBubbleGum();
+               ^
+TypeError: arg.chewBubbleGum is not a function
+    at ...
+</pre>
+</section>
+<section>
+  <div>The exact same code but with the type specified</div>
+  <pre><code class="typescript">interface Chew {
+    chewBubbleGum();
+}
+
+
+function doCoolStuff(arg: Chew) {
+    return arg.chewBubbleGum();
+}
+
+doCoolStuff({});</code></pre>
+</section>
+<section>
+  <div>Now compilation fails</div>
+  <div class="console"><pre>
+$ tsc first.interface.ts
+
+<span class="highlighted cyan ">first.interface.ts</span>:<span class="highlighted yellow ">10</span>:<span
+        class="highlighted yellow ">13</span> - <span class="highlighted red ">error</span><span
+        class="highlighted dimgray "> TS2345: </span>Argument of type '{}' is not assignable to parameter of type 'Chew'.
+  Property 'chewBubbleGum' is missing in type '{}' but required in type 'Chew'.
+
+<span class="inverted bg-inverted ">10</span> doCoolStuff({});
+<span class="inverted bg-inverted ">  </span> <span class="highlighted red ">            ~~</span>
+
+  <span class="highlighted cyan ">first.interface.ts</span>:<span class="highlighted yellow ">2</span>:<span
+        class="highlighted yellow ">5</span>
+    <span class="inverted bg-inverted ">2</span>     chewBubbleGum();
+    <span class="inverted bg-inverted "> </span> <span class="highlighted cyan ">    ~~~~~~~~~~~~~~~~</span>
+    'chewBubbleGum' is declared here.
+
+Found 1 error.
+</pre>
+  </div>
+</section>
+<section>
+  <pre><code class="typescript">interface Chew {
+    chewBubbleGum();
+}
+
+class Arg {
+    chewBubbleGum() {
+        console.log(&quot;chewing bubble gum&quot;);
+    }
+}
+
+function doCoolStuff(arg: Chew) {
+    return arg.chewBubbleGum();
+}
+
+doCoolStuff(new Arg());</code></pre>
+  <div class="console"><pre>
+$ tsc first.interface.implemented.ts
+$ node first.interface.implemented.js
+chewing bubble gum
+</pre>
+  </div>
+</section>
+<section>
+  <div>What about return type?</div>
+  <pre><code class="typescript">export interface Chew {
+    chewBubbleGum();
+}</code></pre>
+  <pre><code class="typescript">import {Chew} from &quot;./Chew&quot;;
+
+class Arg {
+    chewBubbleGum() {
+        console.log(&quot;chewing bubble gum&quot;);
+        return {};
+    }
+}
+
+function doCoolStuff(arg: Chew) {
+    return arg.chewBubbleGum();
+}
+
+let trash = doCoolStuff(new Arg());
+trash.moveToTrashBin();
+</code></pre>
+</section>
+<section>
+  <div>Again, compiles without errors</div><pre>
+$ tsc return.error.ts
+</pre>
+  <div>And error is thrown in runtime</div><pre>
+$ node return.error.js
+chewing bubble gum
+.../return.error.js:16
+trash.moveToTrashBin();
+      ^
+
+TypeError: trash.moveToTrashBin is not a function
+</pre>
+</section>
+<section>
+  <div>Let's add a second interface</div>
+  <pre><code class="typescript">export interface Chew {
+    chewBubbleGum();
+}</code></pre>
+  <pre><code class="typescript">export interface Trash {
+    moveToTrashBin();
+}</code></pre>
+</section>
+<section>
+  <div>And put correct type on return value as well</div>
+  <pre><code class="typescript">import {Chew} from &quot;./Chew&quot;;
+import {Trash} from &quot;./Trash&quot;;
+
+class Return implements Trash {
+    moveToTrashBin() {
+        console.log(&quot;moving chewed bubble gum to trash bin&quot;);
+    }
+}
+
+class Arg implements Chew {
+    chewBubbleGum(): Return {
+        console.log(&quot;chewing bubble gum&quot;);
+        return {};
+    }
+}
+
+function doCoolStuff(arg: Chew): Trash {
+    return arg.chewBubbleGum();
+}
+
+let trash = doCoolStuff(new Arg());
+trash.moveToTrashBin();
+</code></pre>
+</section>
+<section>
+  <div>Now compilation fails as expected</div>
+  <div class="console"><pre>
+$ tsc second.interface.ts
+
+<span class="highlighted cyan ">second.interface.ts</span>:<span class="highlighted yellow ">13</span>:<span
+        class="highlighted yellow ">9</span> - <span class="highlighted red ">error</span><span
+        class="highlighted dimgray "> TS2741: </span>Property 'moveToTrashBin' is missing in type '{}' but required in type 'Return'.
+
+<span class="inverted bg-inverted ">13</span>         return {};
+<span class="inverted bg-inverted ">  </span> <span class="highlighted red ">        ~~~~~~~~~~</span>
+
+  <span class="highlighted cyan ">second.interface.ts</span>:<span class="highlighted yellow ">5</span>:<span
+        class="highlighted yellow ">5</span>
+    <span class="inverted bg-inverted ">5</span>     moveToTrashBin() {
+    <span class="inverted bg-inverted "> </span> <span class="highlighted cyan ">    ~~~~~~~~~~~~~~</span>
+    'moveToTrashBin' is declared here.
+
+Found 1 error.
+</pre>
+  </div>
+</section>
+<section>
+  <div>Let's return the implemented result value interface</div>
+  <pre><code class="typescript">import {Chew} from &quot;./Chew&quot;;
+import {Trash} from &quot;./Trash&quot;;
+
+class Return implements Trash {
+    moveToTrashBin() {
+        console.log(&quot;moving chewed bubble gum to trash bin&quot;);
+    }
+}
+
+class Arg implements Chew {
+    chewBubbleGum(): Return {
+        console.log(&quot;chewing bubble gum&quot;);
+        return new Return();
+    }
+}
+
+function doCoolStuff(arg: Chew): Trash {
+    return arg.chewBubbleGum();
+}
+
+let trash = doCoolStuff(new Arg());
+trash.moveToTrashBin();
+</code></pre>
+</section>
+<section>
+  <div>Now everything works as expected</div>
+  <div class="console"><pre>
+$ tsc second.interface.implemented.ts
+$ node second.interface.implemented.js
+chewing bubble gum
+moving chewed bubble gum to trash bin
+</pre>
+  </div>
+</section>
+<section>
+  <div>The exact same code without types forces to peek inside function to figure out contracts</div>
+  <pre><code class="typescript">function doCoolStuff(arg) {
+    return arg.chewBubbleGum();
+}
+
+let trash = doCoolStuff({
+    chewBubbleGum: function () {
+        console.log(&quot;chewing bubble gum&quot;);
+        return {
+            moveToTrashBin: function () {
+                console.log(&quot;moving chewed bubble gum to trash bin&quot;);
+            }
+        }
+    }
+});
+trash.moveToTrashBin();
+</code></pre>
+</section>
+<section>
+  <div>Types are always present</div>
+  <div>Dynamic typing: types are implicit</div>
+  <div>Static typing: types are explicit</div>
+</section>
+<section>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Dynamic typing</th>
+        <th>Static typing</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Easy to write</td>
+        <td>+</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>Easy to read</td>
+        <td>-</td>
+        <td>+</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+<section>
+  <div>Dynamic typing</div>
+  <ul>
+    <li>throw-away code</li>
+    <li>simple scripts</li>
+    <li>small projects done by a single developer</li>
+  </ul>
+</section>
+<section>
+  <div>Static typing</div>
+  <ul>
+    <li>large code base</li>
+    <li>complex logic</li>
+    <li>big projects done by a team of developers</li>
+  </ul>
+</section>
+      </div>
+    </div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
