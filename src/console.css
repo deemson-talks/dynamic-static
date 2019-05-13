@@ -1,0 +1,107 @@
+.console pre {
+    overflow-x: scroll;
+}
+
+.console pre .reset {
+    color: black;
+}
+
+.console pre .bg-reset {
+    background-color: white;
+}
+
+.console pre .inverted {
+    color: white;
+}
+
+.console pre .bg-inverted {
+    background-color: black;
+}
+
+.console pre .dimgray {
+    color: dimgray;
+}
+
+.console pre .red {
+    color: red;
+}
+
+.console pre .green {
+    color: green;
+}
+
+.console pre .yellow {
+    color: olive;
+}
+
+.console pre .blue {
+    color: blue;
+}
+
+.console pre .purple {
+    color: purple;
+}
+
+.console pre .cyan {
+    color: teal;
+}
+
+.console pre .white {
+    color: gray;
+}
+
+.console pre .bg-black {
+    background-color: black;
+}
+
+.console pre .bg-red {
+    background-color: red;
+}
+
+.console pre .bg-green {
+    background-color: green;
+}
+
+.console pre .bg-yellow {
+    background-color: olive;
+}
+
+.console pre .bg-blue {
+    background-color: blue;
+}
+
+.console pre .bg-purple {
+    background-color: purple;
+}
+
+.console pre .bg-cyan {
+    background-color: teal;
+}
+
+.console pre .bg-white {
+    background-color: gray;
+}
+
+.console pre .underline {
+    text-decoration: underline;
+}
+
+.console pre .bold {
+    font-weight: bold;
+}
+
+.console pre .italic {
+    font-style: italic;
+}
+
+.console pre .blink {
+    text-decoration: blink;
+}
+
+.console pre .crossed-out {
+    text-decoration: line-through;
+}
+
+.console pre .highlighted {
+    /*filter: contrast(70%) brightness(190%);*/
+}

@@ -1,0 +1,35 @@
+section
+    pre
+        code.typescript
+            include:escape ../snippets/empty.function.ts
+section
+    pre
+        code.typescript
+            include:escape ../snippets/nonempty.function.ts
+section
+    div Compiles without errors
+    include ../snippets/nonempty.function.compilation.html
+    div Error is thrown in runtime
+    include ../snippets/nonempty.function.runtime.html
+section
+    div The exact same code but with the type specified
+    pre
+        code.typescript
+            include:escape ../snippets/first.interface.ts
+section
+    div Now compilation fails
+    div.console
+        include ../snippets/first.interface.compilation.html
+section
+    pre
+        code.typescript
+            include:escape ../snippets/first.interface.implemented.ts
+    div.console
+        include ../snippets/first.interface.implemented.html
+section
+    pre
+        code.typescript
+            include:escape ../snippets/Chew.ts
+    pre
+        code.typescript
+            include:escape ../snippets/return.error.ts

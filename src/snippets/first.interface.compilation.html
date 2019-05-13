@@ -1,0 +1,19 @@
+<pre>
+$ tsc first.interface.ts
+
+<span class="highlighted cyan ">first.interface.ts</span>:<span class="highlighted yellow ">10</span>:<span
+        class="highlighted yellow ">13</span> - <span class="highlighted red ">error</span><span
+        class="highlighted dimgray "> TS2345: </span>Argument of type '{}' is not assignable to parameter of type 'Chew'.
+  Property 'chewBubbleGum' is missing in type '{}' but required in type 'Chew'.
+
+<span class="inverted bg-inverted ">10</span> doCoolStuff({});
+<span class="inverted bg-inverted ">  </span> <span class="highlighted red ">            ~~</span>
+
+  <span class="highlighted cyan ">first.interface.ts</span>:<span class="highlighted yellow ">2</span>:<span
+        class="highlighted yellow ">5</span>
+    <span class="inverted bg-inverted ">2</span>     chewBubbleGum();
+    <span class="inverted bg-inverted "> </span> <span class="highlighted cyan ">    ~~~~~~~~~~~~~~~~</span>
+    'chewBubbleGum' is declared here.
+
+Found 1 error.
+</pre>
